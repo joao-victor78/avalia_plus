@@ -1,0 +1,254 @@
+:root {
+  color: #222831;
+  background: #f4f6f8;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background: #f4f6f8;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  background: #1f2933;
+  color: #fff;
+  padding: 3rem 0 2.5rem;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: clamp(2rem, 3vw, 3rem);
+  font-weight: 800;
+}
+
+.eyebrow {
+  margin: 0 0 0.5rem;
+  color: #8bd3dd;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.summary-card,
+.form-panel,
+.reviews-panel,
+.search-panel {
+  background: #fff;
+  border: 1px solid #d9e2ec;
+  border-radius: 8px;
+  box-shadow: 0 12px 30px rgb(15 23 42 / 0.08);
+}
+
+.summary-card {
+  min-height: 100px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.summary-card span {
+  color: #62748a;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.summary-card strong {
+  color: #102a43;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.form-panel,
+.reviews-panel,
+.search-panel {
+  padding: 1.25rem;
+}
+
+.form-panel h2,
+.reviews-panel h2,
+.search-panel h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.search-panel {
+  margin-bottom: 1rem;
+}
+
+.search-results {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  max-height: 460px;
+  overflow: auto;
+}
+
+.search-item,
+.selected-movie,
+.review-card {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 0.9rem;
+  align-items: start;
+}
+
+.search-item {
+  padding: 0.75rem;
+  border: 1px solid #d9e2ec;
+  border-radius: 8px;
+}
+
+.search-item img,
+.selected-movie img {
+  width: 72px;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #d9e2ec;
+}
+
+.search-item h3,
+.review-card h3 {
+  margin: 0;
+  color: #102a43;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.search-item p,
+.selected-movie span,
+.review-heading p,
+.synopsis,
+.review-meta {
+  color: #62748a;
+}
+
+.search-item p,
+.review-heading p {
+  margin: 0.15rem 0 0.65rem;
+}
+
+.selected-movie {
+  padding: 0.75rem;
+  background: #f4f6f8;
+  border-radius: 8px;
+}
+
+.selected-movie div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.review-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.review-card {
+  grid-template-columns: 116px 1fr;
+  padding: 1rem;
+  border: 1px solid #d9e2ec;
+  border-radius: 8px;
+}
+
+.review-card > img {
+  width: 116px;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #d9e2ec;
+}
+
+.review-heading {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.review-heading strong {
+  color: #0b5137;
+  white-space: nowrap;
+}
+
+.synopsis {
+  margin: 0 0 0.75rem;
+  font-size: 0.92rem;
+}
+
+.comment {
+  margin: 0;
+  color: #1f2933;
+}
+
+.review-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 0.85rem;
+  font-size: 0.9rem;
+}
+
+.status-badge {
+  display: inline-flex;
+  min-width: 92px;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.status-badge.watched {
+  color: #0b5137;
+  background: #c6f6d5;
+}
+
+.status-badge.watchlist {
+  color: #663c00;
+  background: #ffe8a3;
+}
+
+.app-footer {
+  margin-top: auto;
+  background: #fff;
+  border-top: 1px solid #d9e2ec;
+  color: #52606d;
+  font-size: 0.9rem;
+}
+
+.app-footer .container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  justify-content: space-between;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+@media (max-width: 575px) {
+  .review-card {
+    grid-template-columns: 82px 1fr;
+  }
+
+  .review-card > img {
+    width: 82px;
+  }
+
+  .review-heading {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+}
