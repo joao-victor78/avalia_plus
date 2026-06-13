@@ -1,8 +1,8 @@
 # Avalia++
 
-## Integrantes
+## Aluno
 
-- Informe aqui o nome completo dos integrantes.
+- João Victor Alves da Mota
 
 ## Tema Escolhido
 
