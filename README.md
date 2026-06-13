@@ -1,74 +1,27 @@
 # Avalia++
 
-Aplicação web de diário e catálogo de filmes, inspirada no Letterboxd.
-
 ## Aluno
 
 - João Victor Alves da Mota
 
 ## Tema escolhido
 
-Diário de filmes e avaliações.
+Diário de filmes e avaliações, inspirado no Letterboxd.
 
-## Descrição
+## Descrição da aplicação
 
-O Avalia++ permite pesquisar filmes pela API OMDb, registrar avaliações pessoais e criar uma lista de filmes para assistir posteriormente. Os dados principais são persistidos no PostgreSQL por uma API Java e exibidos no front-end React.
+O Avalia++ é uma aplicação web para pesquisar filmes pela API OMDb, registrar avaliações pessoais e criar uma lista de filmes para assistir posteriormente.
 
-Entre as funcionalidades estão:
-
-- Busca de filmes pela OMDb;
-- Cadastro e listagem de avaliações;
-- Edição e exclusão de registros;
-- Lista **Quero ver**;
-- Dashboard com total cadastrado, assistidos, filmes para ver e nota média;
-- Atualização automática da interface após cada operação.
+Os dados são enviados pelo front-end React para uma API Java e armazenados em um banco PostgreSQL. A aplicação permite cadastrar, listar, editar e excluir registros, além de apresentar contadores e a média das avaliações.
 
 ## Tecnologias utilizadas
 
-### Front-end
-
-- React 19;
-- Vite;
-- TypeScript;
-- Bootstrap 5;
-- Fetch API;
-- API OMDb.
-
-### Back-end
-
-- Java 17;
-- Jakarta Servlets;
-- JDBC;
-- Padrões DAO e ConnectionFactory;
-- Gson;
-- Maven;
-- Apache Tomcat.
-
-### Banco de dados
-
-- PostgreSQL.
-
-## Estrutura do projeto
-
-```text
-avalia_plus/
-├── backend/                 # API Java
-│   └── src/main/java/br/com/avaliaplus/
-│       ├── config/          # ConnectionFactory
-│       ├── dao/             # Acesso ao PostgreSQL
-│       ├── filter/          # Configuração de CORS
-│       ├── model/           # Modelo Filme
-│       └── servlet/         # Endpoints REST
-├── database/
-│   └── schema.sql           # Criação do banco e tabela
-├── src/
-│   ├── components/          # Componentes React
-│   ├── interfaces/          # Interfaces TypeScript
-│   └── services/            # Comunicação com APIs
-├── .env.example
-├── .gitignore
-└── README.md
-```
+- Front-end: React, Vite, TypeScript e Bootstrap;
+- Back-end: Java 17, Jakarta Servlets, JDBC, DAO, ConnectionFactory e Gson;
+- Banco de dados: PostgreSQL;
+- Servidor: Apache Tomcat;
+- Gerenciadores de build: npm e Maven;
+- API externa: OMDb.
 
 ## Como criar o banco de dados
 
@@ -78,48 +31,30 @@ Com o PostgreSQL instalado e em execução, rode na raiz do projeto:
 psql -U postgres -f database/schema.sql
 ```
 
-O script cria:
-
-- Banco `avalia_plus`;
-- Tabela `filmes`;
-- Chave primária `id`;
-- Restrições de nota, ano e status;
-- Registros iniciais para demonstração.
+O script cria o banco `avalia_plus`, a tabela `filmes` e registros iniciais.
 
 Por padrão, o back-end utiliza:
 
 ```text
-Banco: avalia_plus
+URL: jdbc:postgresql://localhost:5432/avalia_plus
 Usuário: postgres
 Senha: postgres
-Host: localhost
-Porta: 5432
 ```
+
+As credenciais podem ser alteradas pelas variáveis `DB_URL`, `DB_USER` e `DB_PASSWORD`.
 
 ## Como rodar o back-end
 
-Configure outras credenciais, se necessário:
-
-```bash
-export DB_URL=jdbc:postgresql://localhost:5432/avalia_plus
-export DB_USER=postgres
-export DB_PASSWORD=postgres
-```
-
-Compile o projeto:
+Entre na pasta do back-end e gere o arquivo WAR:
 
 ```bash
 cd backend
 mvn clean package
 ```
 
-O arquivo será gerado em:
+Publique o arquivo `backend/target/avalia-api.war` no Apache Tomcat.
 
-```text
-backend/target/avalia-api.war
-```
-
-Publique o WAR em um servidor compatível com Jakarta Servlet, como Apache Tomcat. A API ficará disponível em:
+A API ficará disponível em:
 
 ```text
 http://localhost:8080/avalia-api/filmes
@@ -127,20 +62,18 @@ http://localhost:8080/avalia-api/filmes
 
 ## Como rodar o front-end
 
-Na raiz do projeto:
+Na raiz do projeto, instale as dependências:
 
 ```bash
 npm install
 ```
 
-Crie um arquivo `.env` com base no `.env.example`:
+Crie um arquivo `.env` baseado no `.env.example`:
 
 ```env
 VITE_API_URL=http://localhost:8080/avalia-api/filmes
 VITE_OMDB_API_KEY=sua_chave_da_omdb
 ```
-
-O arquivo `.env` é ignorado pelo Git e não deve ser enviado ao GitHub.
 
 Inicie o Vite:
 
@@ -154,67 +87,64 @@ Acesse:
 http://localhost:5173
 ```
 
-## Endpoints da API
+## Arquitetura
+
+O front-end foi dividido em componentes React, interfaces TypeScript e serviços responsáveis pelas requisições HTTP.
+
+O back-end utiliza:
+
+- `FilmeServlet` para os endpoints REST;
+- `FilmeDAO` para as operações de CRUD;
+- `ConnectionFactory` para a conexão com o PostgreSQL;
+- `CorsFilter` para permitir a comunicação entre React e Java;
+- `Filme` como classe de modelo.
+
+## Endpoints
 
 | Método | Endpoint | Operação |
 |---|---|---|
-| `GET` | `/avalia-api/filmes` | Lista todos os filmes |
-| `GET` | `/avalia-api/filmes/{id}` | Busca um filme pelo ID |
-| `POST` | `/avalia-api/filmes` | Cadastra um filme |
-| `PUT` | `/avalia-api/filmes/{id}` | Atualiza um filme |
-| `DELETE` | `/avalia-api/filmes/{id}` | Exclui um filme |
-
-Exemplo de corpo JSON:
-
-```json
-{
-  "imdbId": "tt0317248",
-  "titulo": "Cidade de Deus",
-  "diretor": "Fernando Meirelles, Katia Lund",
-  "genero": "Crime, Drama",
-  "ano": 2002,
-  "posterUrl": "https://exemplo.com/poster.jpg",
-  "sinopse": "Sinopse do filme.",
-  "status": "ASSISTIDO",
-  "nota": 5.0,
-  "comentario": "Uma avaliação pessoal do filme.",
-  "dataAssistido": "2026-06-09"
-}
-```
-
-## Arquitetura
-
-O front-end foi dividido em componentes React, interfaces TypeScript e serviços. O `filmeService` centraliza as requisições para a API Java, enquanto o `omdbService` realiza buscas na OMDb.
-
-No back-end, o `FilmeServlet` recebe as requisições HTTP e retorna JSON. O `FilmeDAO` implementa o CRUD com JDBC, e a `ConnectionFactory` abre as conexões com o PostgreSQL. O modelo `Filme` representa os dados persistidos.
-
-Após operações de cadastro, atualização ou exclusão, o React consulta novamente a API para atualizar a listagem e o dashboard.
-
-## CORS
-
-O front-end e o back-end executam em origens diferentes:
-
-- React: `http://localhost:5173`;
-- Java: `http://localhost:8080`.
-
-O `CorsFilter` permite as origens locais autorizadas, os métodos `GET`, `POST`, `PUT`, `DELETE` e `OPTIONS`, além do cabeçalho `Content-Type`.
+| `GET` | `/avalia-api/filmes` | Lista os registros |
+| `GET` | `/avalia-api/filmes/{id}` | Busca pelo ID |
+| `POST` | `/avalia-api/filmes` | Cadastra um registro |
+| `PUT` | `/avalia-api/filmes/{id}` | Atualiza um registro |
+| `DELETE` | `/avalia-api/filmes/{id}` | Exclui um registro |
 
 ## Prints da aplicação
 
-Antes da entrega, adicione nesta seção prints reais contendo:
+### Tela principal
 
-1. Tela principal e dashboard;
-2. Busca de filmes na OMDb;
-3. Formulário de avaliação;
-4. Avaliação publicada na listagem;
-5. Testes dos endpoints no Postman.
+![Tela principal do Avalia++](docs/images/tela-principal.jpeg)
+
+### Busca de filmes na OMDb
+
+![Busca de filmes na OMDb](docs/images/busca-omdb.jpeg)
+
+### Formulário de avaliação
+
+![Formulário de avaliação](docs/images/formulario-avaliacao.jpeg)
+
+### Avaliação publicada
+
+![Avaliação publicada](docs/images/avaliacao-publicada.jpeg)
+
+## Testes da API no Postman
+
+### Listagem de registros - GET
+
+![Requisição GET no Postman](docs/images/postman-get.jpeg)
+
+### Cadastro de registro - POST
+
+![Requisição POST no Postman](docs/images/postman-post.jpeg)
+
+### Atualização de registro - PUT
+
+![Requisição PUT no Postman](docs/images/postman-put.jpeg)
+
+### Exclusão de registro - DELETE
+
+![Requisição DELETE no Postman](docs/images/postman-delete.jpeg)
 
 ## Vídeo explicativo
 
-**Link pendente:** adicione aqui o link público do vídeo de 3 a 5 minutos.
-
-O vídeo deve apresentar o tema, front-end, back-end, banco de dados, CRUD, integração React/Java, CORS, Postman e a aplicação funcionando.
-
-## Repositório
-
-<https://github.com/joao-victor78/avalia_plus>
+Adicionar o link público do vídeo de 3 a 5 minutos.

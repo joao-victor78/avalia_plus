@@ -74,7 +74,7 @@ export function OmdbSearch({ onSelecionarFilme, onQueroVer }: OmdbSearchProps) {
       <form className="input-group" onSubmit={buscar}>
         <input
           className="form-control"
-          placeholder="Ex.: Clube da Luta"
+          placeholder="Ex.: Fight Club"
           value={termo}
           onChange={(evento) => setTermo(evento.target.value)}
         />
