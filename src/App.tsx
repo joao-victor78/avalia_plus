@@ -149,7 +149,7 @@ function App() {
 
       <footer className="app-footer">
         <div className="container">
-          <span>Integrantes: informe os nomes no README</span>
+          <span>Aluno: João Victor Alves da Mota</span>
           <span>09/06/2026</span>
           <span>Disciplina: Desenvolvimento Web</span>
         </div>

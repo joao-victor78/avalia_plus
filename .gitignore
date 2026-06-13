@@ -9,3 +9,7 @@ backend/target/
 
 .idea/
 .vscode/
+.codex/
+.agents/
+*.iml
+.DS_Store
